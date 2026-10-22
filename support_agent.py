@@ -14,17 +14,17 @@ from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
 
 from config import (
-    CLASSIFY_TEMPERATURE,
-    COMPANY_NAME,
-    ESCALATE_THRESHOLD,
-    GROQ_API_KEY,
     GROQ_BASE_URL,
     KB_PATH,
-    LLM_PROVIDER,
-    OPENAI_API_KEY,
-    REPLY_TEMPERATURE,
     TICKETS_DIR,
+    classify_temperature,
+    company_name,
+    escalate_threshold,
+    groq_api_key,
     llm_model_name,
+    llm_provider,
+    openai_api_key,
+    reply_temperature,
     require_api_key,
 )
 
@@ -62,18 +62,18 @@ def get_llm(temperature: float) -> ChatOpenAI:
     """Return a chat model. Default is Groq (free); set LLM_PROVIDER=openai for OpenAI."""
     require_api_key()
     model = llm_model_name()
-    if LLM_PROVIDER == "openai":
-        return ChatOpenAI(model=model, temperature=temperature, api_key=OPENAI_API_KEY)
+    if llm_provider() == "openai":
+        return ChatOpenAI(model=model, temperature=temperature, api_key=openai_api_key())
     return ChatOpenAI(
         model=model,
         temperature=temperature,
-        api_key=GROQ_API_KEY,
+        api_key=groq_api_key(),
         base_url=GROQ_BASE_URL,
     )
 
 
 def classify_intent(state: SupportState) -> dict[str, Any]:
-    llm = get_llm(CLASSIFY_TEMPERATURE).with_structured_output(IntentResult)
+    llm = get_llm(classify_temperature()).with_structured_output(IntentResult)
     result: IntentResult = llm.invoke(
         [
             SystemMessage(
@@ -86,7 +86,7 @@ def classify_intent(state: SupportState) -> dict[str, Any]:
             HumanMessage(content=state["customer_message"]),
         ]
     )
-    escalate = result.intent == "escalate" or result.confidence < ESCALATE_THRESHOLD
+    escalate = result.intent == "escalate" or result.confidence < escalate_threshold()
     logger.info(
         "Classified intent=%s confidence=%.2f escalate=%s",
         result.intent,
@@ -104,7 +104,7 @@ def classify_intent(state: SupportState) -> dict[str, Any]:
 def draft_reply(state: SupportState) -> dict[str, str]:
     if state.get("escalate"):
         reply = (
-            f"Thanks for reaching out to {COMPANY_NAME}. I'm connecting you with a "
+            f"Thanks for reaching out to {company_name()}. I'm connecting you with a "
             f"human specialist for this {state.get('intent', 'sensitive')} issue. "
             "Your ticket has been prioritized."
         )
@@ -112,8 +112,8 @@ def draft_reply(state: SupportState) -> dict[str, str]:
 
     kb = load_kb()
     section = kb.get(state["intent"], kb.get("general", {}))
-    company = kb.get("company", COMPANY_NAME)
-    llm = get_llm(REPLY_TEMPERATURE)
+    company = kb.get("company", company_name())
+    llm = get_llm(reply_temperature())
     prompt = (
         f"You are a helpful customer support agent for {company}.\n"
         f"Intent: {state['intent']}\n"
@@ -182,7 +182,7 @@ def handle_message(customer_message: str) -> SupportState:
 
 
 def main() -> None:
-    print(f"{COMPANY_NAME} Support Agent")
+    print(f"{company_name()} Support Agent")
     print("Type a customer message (or 'quit').\n")
     while True:
         try:

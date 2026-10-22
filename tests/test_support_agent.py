@@ -120,7 +120,7 @@ def test_handle_message_pipeline(tickets_dir: Path):
 
     with (
         patch("support_agent.get_llm", side_effect=fake_get_llm),
-        patch("support_agent.CLASSIFY_TEMPERATURE", 0),
+        patch("support_agent.classify_temperature", return_value=0),
     ):
         result = handle_message("My package is late")
 
@@ -138,8 +138,8 @@ def test_low_confidence_forces_escalate(tickets_dir: Path):
 
     with (
         patch("support_agent.get_llm", return_value=classify_llm),
-        patch("support_agent.CLASSIFY_TEMPERATURE", 0),
-        patch("support_agent.ESCALATE_THRESHOLD", 0.45),
+        patch("support_agent.classify_temperature", return_value=0),
+        patch("support_agent.escalate_threshold", return_value=0.45),
     ):
         result = handle_message("asdfasdf ???")
 
