@@ -1,0 +1,26 @@
+{
+  "company": "NovaMart",
+  "billing": {
+    "refund_window_days": 30,
+    "payment_methods": ["Visa", "Mastercard", "PayPal", "Apple Pay"],
+    "invoice_help": "Invoices are emailed within 5 minutes of purchase and available under Account > Orders."
+  },
+  "technical": {
+    "app_reset": "Try force-closing the app, clearing cache, then reinstalling if the issue persists.",
+    "supported_os": ["iOS 15+", "Android 11+", "Windows 10+", "macOS 12+"],
+    "known_issue": "Checkout spinner can hang on slow networks; wait 20s or switch Wi-Fi/cellular."
+  },
+  "shipping": {
+    "standard_days": "3-5 business days",
+    "express_days": "1-2 business days",
+    "tracking": "Tracking links appear under Orders within 24 hours of dispatch."
+  },
+  "account": {
+    "password_reset": "Use Forgot Password on the login page. Link expires in 30 minutes.",
+    "email_change": "Email changes require verification on both old and new addresses."
+  },
+  "general": {
+    "hours": "Support is available Mon-Fri 9am-6pm EST",
+    "contact": "support@novamart.example"
+  }
+}
