@@ -1,10 +1,13 @@
 # NovaMart LLM Customer Support Agent
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-novamartsupport.streamlit.app-FF4B4B?logo=streamlit&logoColor=white)](https://novamartsupport.streamlit.app/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![LangGraph](https://img.shields.io/badge/orchestration-LangGraph-orange.svg)](https://langchain-ai.github.io/langgraph/)
 
-An AI customer-support agent that **classifies intent**, **grounds replies in a JSON knowledge base**, **logs tickets**, and **escalates** low-confidence or sensitive cases — built with LangChain, LangGraph, and OpenAI.
+**Live demo:** [https://novamartsupport.streamlit.app/](https://novamartsupport.streamlit.app/)
+
+An AI customer-support agent that **classifies intent**, **grounds replies in a JSON knowledge base**, **logs tickets**, and **escalates** low-confidence or sensitive cases — built with LangChain, LangGraph, and Groq (free tier).
 
 ![Pipeline overview](outputs/pipeline_overview.png)
 
@@ -118,6 +121,10 @@ Tests mock the LLM so they run without an API key.
 
 ## Deploy (Streamlit Community Cloud — free)
 
+**Production app:** [https://novamartsupport.streamlit.app/](https://novamartsupport.streamlit.app/)
+
+To redeploy or fork:
+
 1. Push this repo to GitHub (branch `main`).
 2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app**.
 3. Select repo `llm-customer-support-agent`, branch `main`, main file `app.py`.
@@ -129,7 +136,7 @@ GROQ_API_KEY = "gsk_your-real-key"
 GROQ_MODEL = "openai/gpt-oss-20b"
 ```
 
-5. Click **Deploy**. Your public URL will look like `https://<app-name>.streamlit.app`.
+5. Click **Deploy**.
 
 Never commit `.env` or `.streamlit/secrets.toml` — keys stay in Streamlit Secrets only.
 
