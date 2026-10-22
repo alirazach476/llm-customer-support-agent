@@ -1,9 +1,17 @@
 .env
+.streamlit/secrets.toml
 .venv/
 venv/
 __pycache__/
 *.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
 .DS_Store
 tickets/
 .idea/
 .vscode/
+*.egg-info/
+dist/
+build/
